@@ -7,7 +7,7 @@ export class SensorService {
     }
 
     getTemperature() {
-
+        
     }
 
     getMoisture() {
