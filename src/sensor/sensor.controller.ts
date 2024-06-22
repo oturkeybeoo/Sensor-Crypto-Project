@@ -1,21 +1,25 @@
-import { Body, Controller, Post, UseGuards } from "@nestjs/common";
+import { Controller, Get, UseGuards } from "@nestjs/common";
 import { AuthGuard } from '../login/auth.guard';
+import { SensorService } from "./sensor.service";
 
 @Controller('sensor')
 export class SensorController {
-    constructor() {
-
+    constructor(
+        private readonly sensorService: SensorService,
+    ) {
+        
     }
     
     @UseGuards(AuthGuard)
-    @Post("/get_temperature")
-    async getTemperature(@Body() res) {
-    
+    @Get("/get_temperature")
+    async getTemperature() {
+        let res = await this.sensorService.getTemperature()
+        return res
     }
 
     @UseGuards(AuthGuard)
-    @Post("/get_moisture")
-    getMoisture(@Body() res) {
+    @Get("/get_moisture")
+    getMoisture() {
         
     }
 

@@ -1,13 +1,16 @@
 import { Injectable } from "@nestjs/common";
+import { CommonService } from "src/common.service";
 
 @Injectable()
 export class SensorService {
-    constructor() {
+    constructor(
+        private readonly commonService: CommonService,
+    ) {
 
     }
 
     getTemperature() {
-        
+        return this.commonService.encrypt("TEST")
     }
 
     getMoisture() {
