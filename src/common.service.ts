@@ -20,13 +20,14 @@ export class CommonService {
       cipher.final(),
     ]);
     return {
-      encrypted: `${iv.toString("hex")}:${encryptedText.toString("hex")}`
+      encrypted: encryptedText.toString("hex"),
+      pub: iv.toString("hex"),
     }
   }
 
-  async decrypt(encryptedText: string, iv: string) {
+  async decrypt(encryptedText: string, iv: string, priv: string) {
     const password = 'Password used to generate key';
-    const key = (await promisify(scrypt)(password, 'salt', 32)) as Buffer;
+    const key = Buffer.from(priv, "hex")
  
     const decipher = createDecipheriv('aes256', key, Buffer.from(iv, "hex"));
     const decryptedText = Buffer.concat([
@@ -35,4 +36,5 @@ export class CommonService {
     ]);
     return {decrypted: decryptedText.toString()}
   }
+
 }

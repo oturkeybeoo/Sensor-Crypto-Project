@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from "@nestjs/common";
+import { Controller, Get, Post, UseGuards, Body } from "@nestjs/common";
 import { AuthGuard } from '../login/auth.guard';
 import { SensorService } from "./sensor.service";
 
@@ -12,15 +12,21 @@ export class SensorController {
     
     @UseGuards(AuthGuard)
     @Get("/get_temperature")
-    async getTemperature() {
-        let res = await this.sensorService.getTemperature()
+    getTemperature() {
+        let res = this.sensorService.getTemperature()
         return res
     }
 
     @UseGuards(AuthGuard)
     @Get("/get_moisture")
     getMoisture() {
-        
+        let res = this.sensorService.getMoisture()
+        return res
     }
 
+    @Post("/read")
+    read(@Body() req) {
+        let res = this.sensorService.readData(req.encrypted, req.public, req.private)
+        return res
+    }
 }
